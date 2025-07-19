@@ -1,0 +1,28 @@
+{
+  "name": "tavily-assistant-frontend",
+  "version": "1.0.0",
+  "description": "SAP Fiori frontend for the Tavily Assistant",
+  "scripts": {
+    "start": "ui5 serve -o index.html",
+    "dev": "nodemon --exec \"ui5 serve\"",
+    "build": "ui5 build --all"
+  },
+  "dependencies": {
+    "@openui5/sap.m": "1.90.0",
+    "@openui5/sap.ui.core": "1.90.0",
+    "@openui5/sap.ui.layout": "1.90.0",
+    "@openui5/themelib_sap_fiori_3": "1.90.0"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^2.14.0",
+    "nodemon": "^3.1.10",
+    "ui5-middleware-livereload": "^0.5.5",
+    "ui5-middleware-simpleproxy": "^0.7.0"
+  },
+  "ui5": {
+    "dependencies": [
+      "ui5-middleware-livereload",
+      "ui5-middleware-simpleproxy"
+    ]
+  }
+}

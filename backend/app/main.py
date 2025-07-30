@@ -29,10 +29,14 @@ async def invoke_agent(query: Query):
     Invokes the agent with a given prompt.
     """
     try:
+        print("Prompt: ", query)
         response = agent_executor.invoke({"input": query.prompt})
+        print("Response: ", response)
         return {"output": response.get("output")}
     except Exception as e:
         return {"error": "An unexpected error occurred. Please try again later."}
+        # print(f"Error during agent invocation: {e}")
+        # return {"error": f"An unexpected error occurred: {e}. Please try again later."}
 
 @app.get("/")
 def read_root():

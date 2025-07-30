@@ -2,6 +2,7 @@
     controllerName="tavily.assistant.frontend.controller.App"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
+    xmlns:core="sap.ui.core"
     displayBlock="true"
 >
     <App id="app">
@@ -9,45 +10,43 @@
             <Page title="{i18n>title}">
                 <content>
                     <ScrollContainer
-    vertical="true"
-    horizontal="false"
-    height="100%"
-    width="100%"
->
-    <FlexBox
-        justifyContent="Center"
-        alignItems="Start"
-        width="100%"
-    >
-        <VBox
-            class="sapUiSmallMargin"
-            width="50%"
-        >
-            <Title
-                text="{i18n>appTitle}"
-                class="sapUiSmallMarginBottom"
-            />
-            <Input
-                id="promptInput"
-                placeholder="Ask me anything..."
-                width="100%"
-                submit=".onSendPress"
-            />
-            <Button
-                text="Send"
-                press=".onSendPress"
-                class="sapUiSmallMarginTop"
-            />
-            <Text
-                id="responseText"
-                class="sapUiSmallMarginTop"
-                text="{/response}"
-                wrapping="true"
-            />
-        </VBox>
-    </FlexBox>
-</ScrollContainer>
-
+                        vertical="true"
+                        horizontal="false"
+                        height="100%"
+                        width="100%"
+                    >
+                        <FlexBox
+                            justifyContent="Center"
+                            alignItems="Start"
+                            width="100%"
+                        >
+                            <VBox
+                                class="sapUiSmallMargin"
+                                width="50%"
+                            >
+                                <Title
+                                    text="{i18n>appTitle}"
+                                    class="sapUiSmallMarginBottom"
+                                />
+                                <Input
+                                    id="promptInput"
+                                    placeholder="Ask me anything..."
+                                    width="100%"
+                                    submit=".onSendPress"
+                                />
+                                <Button
+                                    text="Send"
+                                    press=".onSendPress"
+                                    class="sapUiSmallMarginTop"
+                                />
+                                <core:HTML
+                                    id="responseText"
+                                    class="sapUiSmallMarginTop markdown-content"
+                                    content="{/response}"
+                                />
+                            </VBox>
+                        </FlexBox>
+                    </ScrollContainer>
                 </content>
             </Page>
         </pages>

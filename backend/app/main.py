@@ -20,6 +20,7 @@ app.add_middleware(
 
 class Query(BaseModel):
     prompt: str
+    session_id: str
 
 agent_executor = create_agent()
 
@@ -30,13 +31,16 @@ async def invoke_agent(query: Query):
     """
     try:
         print("Prompt: ", query)
-        response = agent_executor.invoke({"input": query.prompt})
+        response = agent_executor.invoke(
+            {"input": query.prompt},
+            config={"configurable": {"session_id": query.session_id}},
+        )
         print("Response: ", response)
         return {"output": response.get("output")}
     except Exception as e:
-        return {"error": "An unexpected error occurred. Please try again later."}
-        # print(f"Error during agent invocation: {e}")
-        # return {"error": f"An unexpected error occurred: {e}. Please try again later."}
+        # return {"error": "An unexpected error occurred. Please try again later."}
+        print(f"Error during agent invocation: {e}")
+        return {"error": f"An unexpected error occurred: {e}. Please try again later."}
 
 @app.get("/")
 def read_root():

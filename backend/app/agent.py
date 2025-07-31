@@ -4,42 +4,59 @@ from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from app.tavily_tool import get_tavily_search_tool, get_tavily_crawl_tool
 from dotenv import load_dotenv
-from langchain.memory import ConversationBufferMemory
+from langchain_core.chat_history import InMemoryChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
 
 load_dotenv()
+
+store = {}
+
+def get_history(session_id: str) -> InMemoryChatMessageHistory:
+    if session_id not in store:
+        store[session_id] = InMemoryChatMessageHistory()
+    return store[session_id]
 
 def create_agent():
     """
     Creates a LangChain agent with a Tavily search tool.
     """
     tools = [get_tavily_search_tool(), get_tavily_crawl_tool()]
-
-    # Initialize memory
-    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
     
     prompt_template = """
     Answer the following questions as best you can. You have access to the following tools:
-
     {tools}
 
-    {chat_history}
+    Use the following format and logic to respond to the user's request:
 
-    Use the following format:
+    **1. Thought Process:**
+    - First, analyze the user's `Question`.
+    - If the `Question` is a simple greeting or conversational, respond directly in the `Final Answer` without using a tool. Your response must still follow the final answer format.
+    - If the `Question` contains a URL and the user wants to understand its content (e.g., summarize, analyze), you must use the `tavily_crawl` tool.
+    - If the `Question` is for general information, you must use the `tavily_search` tool.
+    - If a tool returns an error or no useful information, think about what went wrong. Try the tool again with a better `Action Input`. If it still fails, try to answer based on your own knowledge.
 
-    Question: the input question you must answer
-    Thought: You need to decide which tool to use.
-    If the input is a simple greeting or conversational, respond directly with a Final Answer without using any tools.
-    If the user provides a URL and wants to get the entire content of the page (e.g., to summarize an article or analyze the full context), use the 'tavily_crawl' tool.
-    If the user wants to search for general information, use the 'tavily_search' tool.
-    If the tools do not provide a relevant answer, you should try to answer the question yourself.
-    Action: the action to take, should be one of [{tool_names}]
-    Action Input: the input to the action
-    Observation: the result of the action
-    ... (this Thought/Action/Action Input/Observation can repeat N times)
-    Thought: I now know the final answer
-    Final Answer: Provide the most comprehensive answer possible, including all relevant details from the tool outputs.
+    **2. Action Format:**
+    If you decide to use a tool, you must use the following format:
+    Question: The user's question you must answer.
+    Thought: Your detailed reasoning for choosing a specific tool based on the logic above.
+    Action: The name of the tool to use, which must be one of [{tool_names}].
+    Action Input: The input for the selected tool.
+    Observation: The result returned by the tool.
+    ... (this Thought/Action/Action Input/Observation can repeat N times if you need to recover from an error or gather more information)
+
+    **3. Final Answer Format:**
+    Whether you used a tool or are answering directly, you MUST conclude with the final answer in the following format:
+    Thought: I now know the final answer.
+    Final Answer: ALWAYS start with a brief, conversational opening (e.g., "Certainly, here is the information:" or "Here's what I found:"). Then, on a new line, provide the most detailed answer possible.
+    - If you used the `tavily_crawl` tool, provide the full content from the tool.
+    - If the information is from a website, you MUST include the URL in a "References" section like this:
+    
+      **References**:
+      - (Short description of the URL): [URL]
 
     Begin!
+
+    {chat_history}
 
     Question: {input}
     Thought:{agent_scratchpad}
@@ -55,6 +72,13 @@ def create_agent():
     
     agent = create_react_agent(llm, tools, prompt)
     
-    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True, memory=memory)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
     
-    return agent_executor
+    agent_with_history = RunnableWithMessageHistory(
+        agent_executor,
+        get_history,
+        input_messages_key="input",
+        history_messages_key="chat_history",
+    )
+    
+    return agent_with_history

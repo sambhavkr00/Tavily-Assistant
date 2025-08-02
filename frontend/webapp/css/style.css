@@ -1,9 +1,127 @@
 .markdown-content {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .markdown-content * {
-    max-width: 100%;
-    box-sizing: border-box;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* General styles */
+.sapMPage {
+  background-color: #f0f2f5;
+  /* Light gray background */
+}
+
+/* Title styles */
+.sapMTitle {
+  color: #007bff;
+  /* Blue text */
+  text-align: center;
+}
+
+.custom-title {
+  font-size: 2rem !important;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.custom-subtitle {
+  font-size: 0.8rem;
+  color: #888 !important;
+  margin-bottom: 10px;
+}
+
+/* Input styles */
+.sapMInput {
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.sapMTextArea {
+  border: 1px solid #007bff;
+  border-radius: 5px;
+}
+
+/* Button styles */
+.sapMBtn {
+  border-radius: 20px;
+  background-color: #007bff;
+  /* Blue background */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sapMBtn:hover {
+  background-color: #0056b3;
+  /* Darker blue on hover */
+}
+
+.sapUiIcon {
+  font-size: 1.2rem;
+  color: #007bff;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: background-color 0.3s;
+}
+
+.sapUiIcon:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.send-icon {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Response text styles */
+#responseText {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 20px;
+  min-height: 100px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom VBox for centering and padding */
+.custom-vbox {
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading status styles */
+#loadingStatus {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  margin-top: 10px;
+}
+
+.loading-icon {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

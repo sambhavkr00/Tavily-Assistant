@@ -2,12 +2,12 @@ sap.ui.define(
   [
     "sap/ui/core/UIComponent",
     "sap/ui/Device",
-    "tavily/assistant/frontend/model/models",
+    "curiousai/assistant/frontend/model/models",
   ],
   function (UIComponent, Device, models) {
     "use strict";
 
-    return UIComponent.extend("tavily.assistant.frontend.Component", {
+    return UIComponent.extend("curiousai.frontend.Component", {
       metadata: {
         manifest: "json",
       },

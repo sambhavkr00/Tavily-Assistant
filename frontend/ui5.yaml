@@ -1,6 +1,6 @@
 specVersion: "2.4"
 metadata:
-  name: tavily-assistant-frontend
+  name: curiousai-frontend
 type: application
 builder:
   customTasks:

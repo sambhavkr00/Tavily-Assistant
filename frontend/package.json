@@ -1,7 +1,7 @@
 {
-  "name": "tavily-assistant-frontend",
+  "name": "curiousai-frontend",
   "version": "1.0.0",
-  "description": "SAP Fiori frontend for the Tavily Assistant",
+  "description": "SAP Fiori frontend for the CuriousAI",
   "scripts": {
     "start": "ui5 serve -o index.html",
     "dev": "nodemon --exec \"ui5 serve\"",

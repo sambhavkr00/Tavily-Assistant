@@ -1,7 +1,7 @@
 {
   "_version": "1.12.0",
   "sap.app": {
-    "id": "tavily.assistant.frontend",
+    "id": "curiousai.frontend",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "title": "{{appTitle}}",
@@ -21,7 +21,7 @@
   },
   "sap.ui5": {
     "rootView": {
-      "viewName": "tavily.assistant.frontend.view.App",
+      "viewName": "curiousai.frontend.view.App",
       "type": "XML",
       "async": true
     },
@@ -40,7 +40,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "tavily.assistant.frontend.i18n.i18n"
+          "bundleName": "curiousai.frontend.i18n.i18n"
         }
       }
     },
@@ -49,7 +49,7 @@
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
         "async": true,
-        "path": "tavily.assistant.frontend.view",
+        "path": "curiousai.frontend.view",
         "controlAggregation": "pages",
         "controlId": "app",
         "clearControlAggregation": false

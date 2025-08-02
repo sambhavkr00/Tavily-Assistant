@@ -1,11 +1,11 @@
 import os
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain_core.prompts import PromptTemplate
-from langchain_google_genai import ChatGoogleGenerativeAI
-from app.tavily_tool import get_tavily_search_tool, get_tavily_crawl_tool
 from dotenv import load_dotenv
+from app.tavily_tool import get_tavily_search_tool, get_tavily_crawl_tool
+from langchain_core.prompts import PromptTemplate
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
 
@@ -51,8 +51,8 @@ def create_agent():
     - If you used the `tavily_crawl` tool, provide the full content from the tool.
     - If the information is from a website, you MUST include the URL in a "References" section like this:
     
-      **References**:
-      - (Short description of the URL): [URL]
+    **References**:
+    - (Short description of the URL): URL
 
     Begin!
 

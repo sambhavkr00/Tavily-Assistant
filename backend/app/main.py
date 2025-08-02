@@ -30,13 +30,16 @@ async def invoke_agent(query: Query):
     Invokes the agent with a given prompt.
     """
     try:
-        # print("Prompt: ", query)
         response = agent_executor.invoke(
             {"input": query.prompt},
             config={"configurable": {"session_id": query.session_id}},
         )
-        # print("Response: ", response)
-        return {"output": response.get("output")}
+        output = response.get("output", "")
+        if "Final Answer:" in output:
+            final_answer = output.split("Final Answer:")[-1].strip()
+        else:
+            final_answer = output.strip()
+        return {"output": final_answer}
     except Exception as e:
         print(f"Error during agent invocation: {e}")
         return {"error": "An unexpected error occurred. Please try again later."}

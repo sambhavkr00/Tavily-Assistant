@@ -33,11 +33,15 @@ sap.ui.define(
         var sPrompt = oView.byId("promptInput").getValue();
         var oLoadingBox = oView.byId("loadingBox");
         var oLoadingStatus = oView.byId("loadingStatus");
+        var oSendButton = oView.byId("sendButton");
+        var oStopButton = oView.byId("stopButton");
 
         if (!sPrompt) {
           return;
         }
 
+        oSendButton.setVisible(false);
+        oStopButton.setVisible(true);
         oModel.setProperty("/response", "");
         oView.byId("responseText").setContent("");
         oLoadingBox.setVisible(true);
@@ -64,6 +68,9 @@ sap.ui.define(
         var sBackendUrl = "/api/invoke/";
         // var sBackendUrl = "https://<your-backend-url>/api/invoke/"; // Put CF URL here
 
+        this._abortController = new AbortController();
+        var oSignal = this._abortController.signal;
+
         fetch(sBackendUrl, {
           method: "POST",
           headers: {
@@ -73,30 +80,48 @@ sap.ui.define(
             prompt: sPrompt,
             session_id: this.sSessionId,
           }),
+          signal: oSignal,
         })
           .then((response) => {
             if (!response.ok) {
               // Handle HTTP errors (like 500) by reading the response text
-              return response.text().then(text => {
-                throw new Error(`HTTP error! Status: ${response.status}, Body: ${text}`);
+              return response.text().then((text) => {
+                throw new Error(
+                  `HTTP error! Status: ${response.status}, Body: ${text}`
+                );
               });
             }
             return response.json();
           })
           .then((data) => {
-            var sResponse = data.output ?? data.error ?? "An empty or invalid response was received from the server.";
+            var sResponse =
+              data.output ??
+              data.error ??
+              "An empty or invalid response was received from the server.";
             var sHtmlResponse = marked.parse(sResponse);
             oModel.setProperty("/response", sHtmlResponse);
           })
           .catch((error) => {
-            // console.error("Fetch failed:", error);
-            var sErrorResponse = marked.parse("Error: " + error.message);
-            oModel.setProperty("/response", sErrorResponse);
+            if (error.name === "AbortError") {
+              console.log("Fetch aborted");
+            } else {
+              // console.error("Fetch failed:", error);
+              var sErrorResponse = marked.parse("Error: " + error.message);
+              oModel.setProperty("/response", sErrorResponse);
+            }
           })
           .finally(function () {
             clearInterval(that._interval);
             oLoadingBox.setVisible(false);
+            oSendButton.setVisible(true);
+            oStopButton.setVisible(false);
           });
+      },
+
+      onStopPress: function () {
+        if (this._abortController) {
+          this._abortController.abort();
+        }
       },
     });
   }

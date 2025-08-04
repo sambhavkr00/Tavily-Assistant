@@ -44,9 +44,19 @@
                                         </layoutData>
                                     </TextArea>
                                     <core:Icon
+                                        id="sendButton"
                                         src="sap-icon://paper-plane"
                                         class="sapUiSmallMarginBegin send-icon"
                                         press=".onSendPress"
+                                        tooltip="Send"
+                                    />
+                                    <core:Icon
+                                        id="stopButton"
+                                        src="sap-icon://stop"
+                                        class="sapUiSmallMarginBegin stop-icon"
+                                        press=".onStopPress"
+                                        visible="false"
+                                        tooltip="Stop"
                                     />
                                 </FlexBox>
                                 <core:HTML

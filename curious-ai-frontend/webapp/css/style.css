@@ -47,16 +47,83 @@
 }
 
 /* Button styles */
-.sapMBtn {
-  border-radius: 20px;
-  background-color: #007bff;
-  /* Blue background */
+
+.markdown-content {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.markdown-content * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.custom-title {
+  font-size: 2rem !important;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.custom-subtitle {
+  font-size: 0.8rem;
+  color: #888 !important;
+  margin-bottom: 10px;
+}
+
+.send-icon:hover {
+  background-color: #0056b3;
   color: white;
-  border: none;
-  padding: 10px 20px;
+}
+
+.stop-icon:hover {
+  background-color: #b30000;
+  color: white;
+}
+
+.send-icon {
+  background-color: #007bff;
+  color: white;
   cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 5px;
   transition: background-color 0.3s;
 }
+
+.stop-icon {
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: background-color 0.3s;
+}
+
+/* Custom VBox for centering and padding */
+.custom-vbox {
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.loading-icon {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 .sapMBtn:hover {
   background-color: #0056b3;
@@ -74,13 +141,23 @@
   transition: background-color 0.3s;
 }
 
-.sapUiIcon:hover {
+.send-icon:hover {
   background-color: #0056b3;
+  color: white;
+}
+
+.stop-icon:hover {
+  background-color: #b30000;
   color: white;
 }
 
 .send-icon {
   background-color: #007bff;
+  color: white;
+}
+
+.stop-icon {
+  background-color: red;
   color: white;
 }
 

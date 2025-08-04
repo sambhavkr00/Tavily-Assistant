@@ -61,8 +61,7 @@ sap.ui.define(
           }
         }, 2000);
 
-        // Replace with your backend URL
-        var sBackendUrl = "/api";
+        var sBackendUrl = "/api/invoke/";
 
         fetch(sBackendUrl, {
           method: "POST",
@@ -74,13 +73,23 @@ sap.ui.define(
             session_id: this.sSessionId,
           }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              // Handle HTTP errors (like 500) by reading the response text
+              return response.text().then(text => {
+                throw new Error(`HTTP error! Status: ${response.status}, Body: ${text}`);
+              });
+            }
+            return response.json();
+          })
           .then((data) => {
-            var sResponse = data.output || data.error;
+            // Add a fallback to prevent marked() from getting undefined
+            var sResponse = data.output ?? data.error ?? "An empty or invalid response was received from the server.";
             var sHtmlResponse = marked.parse(sResponse);
             oModel.setProperty("/response", sHtmlResponse);
           })
           .catch((error) => {
+            console.error("Fetch failed:", error);
             var sErrorResponse = marked.parse("Error: " + error.message);
             oModel.setProperty("/response", sErrorResponse);
           })

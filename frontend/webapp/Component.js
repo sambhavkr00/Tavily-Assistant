@@ -2,7 +2,7 @@ sap.ui.define(
   [
     "sap/ui/core/UIComponent",
     "sap/ui/Device",
-    "curiousai/assistant/frontend/model/models",
+    "curiousai/frontend/model/models",
   ],
   function (UIComponent, Device, models) {
     "use strict";

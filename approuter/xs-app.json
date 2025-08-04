@@ -1,0 +1,18 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/api/(.*)$",
+      "target": "/api/$1",
+      "destination": "curious_ai_be",
+      "authenticationType": "xsuaa"
+    },
+    {
+      "source": "^/(.*)",
+      "target": "/$1",
+      "destination": "curious-ai-frontend",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}

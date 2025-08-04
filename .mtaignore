@@ -1,0 +1,27 @@
+# MTA build ignore
+.git/
+.gitignore
+
+# Dependencies
+node_modules/
+
+# Python
+backend/venv/
+backend/.venv/
+backend/env/
+backend/__pycache__/
+backend/*.pyc
+
+# MTA build artifacts
+mta_archives/
+.mta/
+
+# UI5 build artifacts
+frontend/dist/
+
+# OS-specific
+.DS_Store
+thumbs.db
+
+# IDE settings
+.vscode/

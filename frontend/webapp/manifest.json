@@ -8,6 +8,12 @@
     "description": "{{appDescription}}",
     "applicationVersion": {
       "version": "1.0.0"
+    },
+    "dataSources": {
+      "api": {
+        "uri": "/api/",
+        "type": "JSON"
+      }
     }
   },
   "sap.ui": {
@@ -42,6 +48,10 @@
         "settings": {
           "bundleName": "curiousai.frontend.i18n.i18n"
         }
+      },
+      "api": {
+        "dataSource": "api",
+        "type": "sap.ui.model.json.JSONModel"
       }
     },
     "routing": {

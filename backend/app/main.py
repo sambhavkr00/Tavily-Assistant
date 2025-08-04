@@ -1,22 +1,7 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 import uvicorn
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from app.agent import create_agent
-
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+from app.server import app
 
 class Query(BaseModel):
     prompt: str
@@ -24,12 +9,20 @@ class Query(BaseModel):
 
 agent_executor = create_agent()
 
-@app.post("/invoke/")
+import logging
+
+# ... (keep the existing code)
+
+# Add a logger
+logger = logging.getLogger(__name__)
+
+@app.post("/api/invoke/")
 async def invoke_agent(query: Query):
     """
     Invokes the agent with a given prompt.
     """
     try:
+        logger.info(f"Invoking agent with prompt: {query.prompt}")
         response = agent_executor.invoke(
             {"input": query.prompt},
             config={"configurable": {"session_id": query.session_id}},
@@ -39,9 +32,10 @@ async def invoke_agent(query: Query):
             final_answer = output.split("Final Answer:")[-1].strip()
         else:
             final_answer = output.strip()
+        logger.info(f"Agent invocation successful. Returning output.")
         return {"output": final_answer}
     except Exception as e:
-        print(f"Error during agent invocation: {e}")
+        logger.error(f"Error during agent invocation: {e}", exc_info=True)
         return {"error": "An unexpected error occurred. Please try again later."}
 
 @app.get("/")

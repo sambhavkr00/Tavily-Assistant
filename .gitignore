@@ -6,8 +6,4 @@ venv/
 .venv/
 env/
 .DS_Store
-/mta_archives/
 /resources/
-.mta/
-mta.yaml
-xs-security.json

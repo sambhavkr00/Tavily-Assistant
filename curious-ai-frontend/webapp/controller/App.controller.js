@@ -62,6 +62,7 @@ sap.ui.define(
         }, 2000);
 
         var sBackendUrl = "/api/invoke/";
+        // var sBackendUrl = "https://<your-backend-url>/api/invoke/"; // Put CF URL here
 
         fetch(sBackendUrl, {
           method: "POST",
@@ -83,13 +84,12 @@ sap.ui.define(
             return response.json();
           })
           .then((data) => {
-            // Add a fallback to prevent marked() from getting undefined
             var sResponse = data.output ?? data.error ?? "An empty or invalid response was received from the server.";
             var sHtmlResponse = marked.parse(sResponse);
             oModel.setProperty("/response", sHtmlResponse);
           })
           .catch((error) => {
-            console.error("Fetch failed:", error);
+            // console.error("Fetch failed:", error);
             var sErrorResponse = marked.parse("Error: " + error.message);
             oModel.setProperty("/response", sErrorResponse);
           })

@@ -1,0 +1,7 @@
+---
+applications:
+  - name: curious-ai-frontend
+    memory: 64M
+    buildpacks:
+      - staticfile_buildpack
+    path: dist

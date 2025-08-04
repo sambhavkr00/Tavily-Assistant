@@ -9,20 +9,12 @@ class Query(BaseModel):
 
 agent_executor = create_agent()
 
-import logging
-
-# ... (keep the existing code)
-
-# Add a logger
-logger = logging.getLogger(__name__)
-
 @app.post("/api/invoke/")
 async def invoke_agent(query: Query):
     """
     Invokes the agent with a given prompt.
     """
     try:
-        logger.info(f"Invoking agent with prompt: {query.prompt}")
         response = agent_executor.invoke(
             {"input": query.prompt},
             config={"configurable": {"session_id": query.session_id}},
@@ -32,10 +24,8 @@ async def invoke_agent(query: Query):
             final_answer = output.split("Final Answer:")[-1].strip()
         else:
             final_answer = output.strip()
-        logger.info(f"Agent invocation successful. Returning output.")
         return {"output": final_answer}
     except Exception as e:
-        logger.error(f"Error during agent invocation: {e}", exc_info=True)
         return {"error": "An unexpected error occurred. Please try again later."}
 
 @app.get("/")

@@ -1,13 +1,14 @@
 import os
 from dotenv import load_dotenv
 from app.tavily_tool import get_tavily_search_tool, get_tavily_crawl_tool
+from app.credentials import get_credential
 from langchain_core.prompts import PromptTemplate
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-load_dotenv()
+
 
 store = {}
 
@@ -66,9 +67,7 @@ def create_agent():
     
     prompt = PromptTemplate.from_template(prompt_template)
     
-    google_api_key = os.getenv("GOOGLE_API_KEY")
-    if not google_api_key:
-        raise ValueError("GOOGLE_API_KEY environment variable not set.")
+    google_api_key = get_credential("GOOGLE_API_KEY")
     
     llm = ChatGoogleGenerativeAI(temperature=0, model="gemini-2.5-flash", google_api_key=google_api_key)
     

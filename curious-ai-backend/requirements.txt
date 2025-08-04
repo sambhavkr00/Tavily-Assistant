@@ -1,7 +1,7 @@
+langchain
+langchain-google-genai
+langchain-community
+langchain-tavily
 fastapi
 uvicorn
-langchain
-langchain-community
-langchain-google-genai
 python-dotenv
-langchain-tavily

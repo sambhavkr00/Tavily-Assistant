@@ -7,7 +7,7 @@ from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
-
+# from app.sap_llm import get_sap_llm
 
 
 store = {}
@@ -68,8 +68,10 @@ def create_agent():
     prompt = PromptTemplate.from_template(prompt_template)
     
     google_api_key = get_credential("GOOGLE_API_KEY")
-    
-    llm = ChatGoogleGenerativeAI(temperature=0, model="gemini-2.5-flash", google_api_key=google_api_key)
+    llm = ChatGoogleGenerativeAI(temperature=0, model="gemini-1.5-flash", google_api_key=google_api_key)
+
+    # For SAP AI Core
+    # llm = get_sap_llm()
     
     agent = create_react_agent(llm, tools, prompt)
     

@@ -70,7 +70,7 @@ def create_agent():
     if not google_api_key:
         raise ValueError("GOOGLE_API_KEY environment variable not set.")
     
-    llm = ChatGoogleGenerativeAI(temperature=0, model="gemini-1.5-flash", google_api_key=google_api_key)
+    llm = ChatGoogleGenerativeAI(temperature=0, model="gemini-2.5-flash", google_api_key=google_api_key)
     
     agent = create_react_agent(llm, tools, prompt)
     

@@ -12,7 +12,7 @@ def get_tavily_search_tool():
     if not tavily_api_key:
         raise ValueError("TAVILY_API_KEY environment variable not set.")
     
-    search = TavilySearch(max_results=20, include_answer="advanced", include_raw_content= True, search_depth="advanced", tavily_api_key=tavily_api_key)
+    search = TavilySearch(max_results=10, include_answer="advanced", include_raw_content="text" , search_depth="advanced", tavily_api_key=tavily_api_key)
     return search
 
 def get_tavily_crawl_tool():

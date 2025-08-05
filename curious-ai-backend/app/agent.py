@@ -1,14 +1,12 @@
 import os
 from dotenv import load_dotenv
-from app.tavily_tool import get_tavily_search_tool, get_tavily_crawl_tool
+from app.tavily_tool import get_tavily_search_tool, get_tavily_extract_tool
 from app.credentials import get_credential
 from langchain_core.prompts import PromptTemplate
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
-# from app.sap_llm import get_sap_llm
-
 
 store = {}
 
@@ -21,7 +19,7 @@ def create_agent():
     """
     Creates a LangChain agent with a Tavily search tool.
     """
-    tools = [get_tavily_search_tool(), get_tavily_crawl_tool()]
+    tools = [get_tavily_search_tool(), get_tavily_extract_tool()]
     
     prompt_template = """
     You are a helpful assistant that MUST strictly follow the output format provided below.
@@ -34,7 +32,7 @@ def create_agent():
     **1. Thought Process:**
     - First, analyze the user\'s `Question`.
     - If the `Question` is a simple greeting or conversational, you must respond using the `Final Answer Format` without using a tool.
-    - If the `Question` contains a URL and the user wants to understand its content (e.g., summarize, analyze), you must use the `tavily_crawl` tool.
+    - If the `Question` contains a URL and the user wants to understand its content (e.g., summarize, analyze), you must use the `tavily_extract` tool.
     - If the `Question` is for general information, you must use the `tavily_search` tool.
     - If a tool returns an error or no useful information, think about what went wrong. Try the tool again with a better `Action Input`. If it still fails, try to answer based on your own knowledge.
 
@@ -51,7 +49,7 @@ def create_agent():
     This is a strict requirement. When you have the final answer, you MUST use the following format. You must include the "Thought:" line.
     Thought: I now know the final answer.
     Final Answer: ALWAYS start with a brief, conversational opening. Then, on a new line, provide the most detailed answer possible.
-    - If you used the `tavily_crawl` tool, provide the full content from the tool.
+    - If you used the `tavily_extract` tool, provide the full content from the tool.
     - If the information is from a website, you MUST include the URL in a "References" section like this:
     
     **References**:
@@ -68,10 +66,7 @@ def create_agent():
     prompt = PromptTemplate.from_template(prompt_template)
     
     google_api_key = get_credential("GOOGLE_API_KEY")
-    llm = ChatGoogleGenerativeAI(temperature=0, model="gemini-1.5-flash", google_api_key=google_api_key)
-
-    # For SAP AI Core
-    # llm = get_sap_llm()
+    llm = ChatGoogleGenerativeAI(temperature=0, model="gemini-2.5-flash", google_api_key=google_api_key)
     
     agent = create_react_agent(llm, tools, prompt)
     

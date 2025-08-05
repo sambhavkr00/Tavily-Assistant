@@ -1,5 +1,5 @@
 import os
-from langchain_tavily import TavilySearch, TavilyCrawl
+from langchain_tavily import TavilySearch, TavilyExtract
 from dotenv import load_dotenv
 from app.credentials import get_credential
 
@@ -14,11 +14,11 @@ def get_tavily_search_tool():
     search = TavilySearch(max_results=10, include_answer="advanced", include_raw_content="text" , search_depth="advanced", tavily_api_key=tavily_api_key)
     return search
 
-def get_tavily_crawl_tool():
+def get_tavily_extract_tool():
     """
-    Returns a Tavily crawl tool.
+    Returns a Tavily extract tool.
     """
     tavily_api_key = get_credential("TAVILY_API_KEY")
     
-    crawl = TavilyCrawl(max_depth=1, extract_depth="advanced", format="text", tavily_api_key=tavily_api_key)
-    return crawl
+    extract = TavilyExtract(max_depth=1, extract_depth="advanced", format="text", tavily_api_key=tavily_api_key)
+    return extract

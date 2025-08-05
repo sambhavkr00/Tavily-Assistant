@@ -1,6 +1,6 @@
 # CuriousAI
 
-A smart assistant capable of searching and crawling the internet. This project is a full-stack application with a Python backend and a SAP Fiori/UI5 frontend, designed to be deployed as standalone applications.
+A smart assistant capable of searching the internet and extracting information from URL. This project is a full-stack application with a Python backend and a SAP Fiori/UI5 frontend, designed to be deployed as standalone applications.
 
 ## Local Development
 
